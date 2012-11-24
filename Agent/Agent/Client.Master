@@ -1,0 +1,36 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Client.master.cs" Inherits="Agent.Client" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>Agente</title>
+    <link type="text/css" href="\css\flick\jquery-ui-1.9.0.custom.css" rel="stylesheet" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <script type="text/javascript" src="/js/jquery.js"></script>
+    <script type="text/javascript" src="/js/jqueryui.js"></script>
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <form id="form" runat="server">
+        <header>
+            <a href="/Default.aspx" class="title">
+                <h1>aGente</h1>
+            </a>
+            <div id="headoptions">
+                <asp:ContentPlaceHolder ID="header" runat="server">
+                </asp:ContentPlaceHolder>
+            </div>
+        </header>
+        <nav>
+            <asp:ContentPlaceHolder ID="nav" runat="server">
+            </asp:ContentPlaceHolder>
+        </nav>
+        <div id="content">
+            <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+            </asp:ContentPlaceHolder>
+        </div>
+    </form>
+</body>
+</html>

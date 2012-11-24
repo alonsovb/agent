@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2012 for Web
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Agent", "Agent\Agent.csproj", "{F0B44305-3BFB-4FB1-BDCA-AA62D31FAA39}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AModel", "AModel\AModel.csproj", "{D10C6940-1EAF-401D-B0BF-B06280D27AD1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AController", "AController\AController.csproj", "{E37E17FF-84E2-4E53-8918-4AD65A6A83E1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F0B44305-3BFB-4FB1-BDCA-AA62D31FAA39}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F0B44305-3BFB-4FB1-BDCA-AA62D31FAA39}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F0B44305-3BFB-4FB1-BDCA-AA62D31FAA39}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F0B44305-3BFB-4FB1-BDCA-AA62D31FAA39}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D10C6940-1EAF-401D-B0BF-B06280D27AD1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D10C6940-1EAF-401D-B0BF-B06280D27AD1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D10C6940-1EAF-401D-B0BF-B06280D27AD1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D10C6940-1EAF-401D-B0BF-B06280D27AD1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E37E17FF-84E2-4E53-8918-4AD65A6A83E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E37E17FF-84E2-4E53-8918-4AD65A6A83E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E37E17FF-84E2-4E53-8918-4AD65A6A83E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E37E17FF-84E2-4E53-8918-4AD65A6A83E1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
