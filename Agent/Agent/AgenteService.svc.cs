@@ -26,6 +26,14 @@ namespace Agent
         //         WebOperationContext.Current.OutgoingResponse.ContentType = "text/xml";
 
         #region Usuarios
+        
+        /// <summary>
+        /// Registra un usuario en el sistema.
+        /// </summary>
+        /// <param name="email">Email del usuario.</param>
+        /// <param name="password">Contraseña del usuario.</param>
+        /// <param name="name">Nombre del usuario.</param>
+        /// <returns>Datos del usuario registrado.</returns>
         [OperationContract]
         [WebGet(ResponseFormat = WebMessageFormat.Xml)]
         public XElement RegisterUser(string email, string password, string name)
@@ -38,6 +46,12 @@ namespace Agent
             return x;
         }
 
+        /// <summary>
+        /// Autentifica los credenciales de un usuario.
+        /// </summary>
+        /// <param name="email">Email del usuario.</param>
+        /// <param name="password">Contraseña del usuario.</param>
+        /// <returns>Datos del usuario si son correctos.</returns>
         [OperationContract]
         [WebGet(ResponseFormat = WebMessageFormat.Xml)]
         public XElement Authenticate(string email, string password)
@@ -59,6 +73,11 @@ namespace Agent
             return x;
         }
 
+        /// <summary>
+        /// Obtiene un usuario según su Identificación.
+        /// </summary>
+        /// <param name="userid">Identificación del usuario.</param>
+        /// <returns>Datos del usuario.</returns>
         [OperationContract]
         [WebGet(ResponseFormat = WebMessageFormat.Xml)]
         public XElement GetUser(int userid)
@@ -79,6 +98,12 @@ namespace Agent
             return x;
         }
 
+        /// <summary>
+        /// Actualiza el nombre de un usuario.
+        /// </summary>
+        /// <param name="userid">Identificador del usuario.</param>
+        /// <param name="name">Nuev nombre del usuario.</param>
+        /// <returns>Datos del usuario.</returns>
         [OperationContract]
         [WebGet(ResponseFormat = WebMessageFormat.Xml)]
         public XElement UpdateUser(int userid, string name)
@@ -104,6 +129,11 @@ namespace Agent
 
         #region Proyectos
 
+        /// <summary>
+        /// Obtiene los proyectos de un usuario.
+        /// </summary>
+        /// <param name="user">Identificación del usuario.</param>
+        /// <returns>Lista de proyectos.</returns>
         [OperationContract]
         [WebGet(ResponseFormat=WebMessageFormat.Xml)]
         public XElement GetProjects(int user)
@@ -124,6 +154,11 @@ namespace Agent
             return x;
         }
 
+        /// <summary>
+        /// Obtiene los datos de un proyecto.
+        /// </summary>
+        /// <param name="projectid">Identificador del proyecto.</param>
+        /// <returns>Datos del proyecto.</returns>
         [OperationContract]
         [WebGet(ResponseFormat = WebMessageFormat.Xml)]
         public XElement GetProject(int projectid)
@@ -144,6 +179,12 @@ namespace Agent
             return x;
         }
 
+        /// <summary>
+        /// Registra un nuevo proyecto en el sistema.
+        /// </summary>
+        /// <param name="user">Usuario al que pertenece.</param>
+        /// <param name="title">Título del proyecto.</param>
+        /// <returns>Datos del proyecto registrado.</returns>
         [OperationContract]
         [WebGet(ResponseFormat = WebMessageFormat.Xml)]
         public XElement RegisterProject(int user, string title)
@@ -166,6 +207,12 @@ namespace Agent
             return x;
         }
 
+        /// <summary>
+        /// Actualiza el título de un proyecto.
+        /// </summary>
+        /// <param name="projectid">Identificador del proyecto.</param>
+        /// <param name="title">Nuevo título del proyecto.</param>
+        /// <returns>Datos del proyecto.</returns>
         [OperationContract]
         [WebGet(ResponseFormat = WebMessageFormat.Xml)]
         public XElement UpdateProjectTitle(int projectid, string title)
@@ -187,6 +234,11 @@ namespace Agent
             return x;
         }
 
+        /// <summary>
+        /// Elimina un proyecto según su Identificador.
+        /// </summary>
+        /// <param name="projectid">Identificador del proyecto.</param>
+        /// <returns>XML vacío.</returns>
         [OperationContract]
         [WebGet(ResponseFormat = WebMessageFormat.Xml)]
         public XElement DeleteProject(int projectid)
@@ -204,6 +256,11 @@ namespace Agent
 
         #region Actividades
 
+        /// <summary>
+        /// Obtiene las actividades de un proyecto.
+        /// </summary>
+        /// <param name="project">Identificador del proyecto.</param>
+        /// <returns>Lista de actividades.</returns>
         [OperationContract]
         [WebGet(ResponseFormat = WebMessageFormat.Xml)]
         public XElement GetActivities(int project)
@@ -222,11 +279,17 @@ namespace Agent
                 xproject.Add(new XElement("reminder", activity.Reminder));
                 xproject.Add(new XElement("priority", activity.Priority));
                 xproject.Add(new XElement("completed", activity.Completed));
+                xproject.Add(new XElement("parent", activity.Parent));
                 x.Add(xproject);
             }
             return x;
         }
 
+        /// <summary>
+        /// Obtiene las actividades de un usuario.
+        /// </summary>
+        /// <param name="user">Identificador del usuario.</param>
+        /// <returns>Lista de actividades.</returns>
         [OperationContract]
         [WebGet(ResponseFormat = WebMessageFormat.Xml)]
         public XElement GetAllActivities(int user)
@@ -245,6 +308,7 @@ namespace Agent
                 xproject.Add(new XElement("reminder", activity.Reminder));
                 xproject.Add(new XElement("priority", activity.Priority));
                 xproject.Add(new XElement("completed", activity.Completed));
+                xproject.Add(new XElement("parent", activity.Parent));
                 xproject.Add(new XElement("projectid", activity.ProjectID));
                 xproject.Add(new XElement("projecttitle", activity.ProjectTitle));
                 x.Add(xproject);
@@ -252,6 +316,11 @@ namespace Agent
             return x;
         }
 
+        /// <summary>
+        /// Obtiene los datos de una actividad.
+        /// </summary>
+        /// <param name="activity">Identificador de la actividad.</param>
+        /// <returns>Datos de la actividad.</returns>
         [OperationContract]
         [WebGet(ResponseFormat = WebMessageFormat.Xml)]
         public XElement GetActivity(int activity)
@@ -271,12 +340,18 @@ namespace Agent
                 xproject.Add(new XElement("reminder", aactivity.Reminder));
                 xproject.Add(new XElement("priority", aactivity.Priority));
                 xproject.Add(new XElement("completed", aactivity.Completed));
+                xproject.Add(new XElement("parent", aactivity.Parent));
                 x.Add(xproject);
             }
 
             return x;
         }
 
+        /// <summary>
+        /// Obtiene las actividades derivadas de otra actividad.
+        /// </summary>
+        /// <param name="activity">Identificador de la actividad padre.</param>
+        /// <returns>Lista de actividades</returns>
         [OperationContract]
         [WebGet(ResponseFormat = WebMessageFormat.Xml)]
         public XElement GetChildActivities(int activity)
@@ -295,11 +370,23 @@ namespace Agent
                 xproject.Add(new XElement("reminder", aactivity.Reminder));
                 xproject.Add(new XElement("priority", aactivity.Priority));
                 xproject.Add(new XElement("completed", aactivity.Completed));
+                xproject.Add(new XElement("parent", aactivity.Parent));
                 x.Add(xproject);
             }
             return x;
         }
 
+        /// <summary>
+        /// Registra una nueva actividad en el sistema.
+        /// </summary>
+        /// <param name="project">Proyecto al que pertenece.</param>
+        /// <param name="title">Título de la actividad.</param>
+        /// <param name="parentActivity">Actividad padre de la nueva actividad.</param>
+        /// <param name="priority">Prioridad de la actividad.</param>
+        /// <param name="due">Fecha en que ocurre la actividad.</param>
+        /// <param name="reminder">Fecha de recordatorio de la actividad.</param>
+        /// <param name="completed">Completitud de la actividad.</param>
+        /// <returns>Datos de la actividad.</returns>
         [OperationContract]
         [WebGet(ResponseFormat = WebMessageFormat.Xml)]
         public XElement RegisterActivity(int project, string title, int parentActivity, int priority,
@@ -311,9 +398,9 @@ namespace Agent
 
             DateTime ddue = DateTime.Parse(due),
                 dreminder = DateTime.Parse(reminder);
-            bool bcompleted = (priority > 0);
+            bool bcompleted = (completed > 0);
 
-            int registeredid = db.RegisterActivity(project, title, ddue, 0,
+            int registeredid = db.RegisterActivity(project, title, ddue, parentActivity,
                 Convert.ToByte(priority), dreminder, bcompleted);
             AActivity activity = db.GetActivity(registeredid);
             
@@ -333,6 +420,12 @@ namespace Agent
             return x;
         }
 
+        /// <summary>
+        /// Actualiza la completitud de una actividad.
+        /// </summary>
+        /// <param name="activity">Identificador de la actividad.</param>
+        /// <param name="completed">Completitud de la actividad.</param>
+        /// <returns>Datos de la actividad.</returns>
         [OperationContract]
         [WebGet(ResponseFormat = WebMessageFormat.Xml)]
         public XElement UpdateCompleted(int activity, int completed)
@@ -362,6 +455,12 @@ namespace Agent
             return x;
         }
 
+        /// <summary>
+        /// Actualizar prioridad de una actividad.
+        /// </summary>
+        /// <param name="activity">Identificador de la actividad.</param>
+        /// <param name="priority">Prioridad de la actividad.</param>
+        /// <returns>Datos de la actividad.</returns>
         [OperationContract]
         [WebGet(ResponseFormat = WebMessageFormat.Xml)]
         public XElement UpdatePriority(int activity, int priority)
@@ -390,6 +489,12 @@ namespace Agent
             return x;
         }
 
+        /// <summary>
+        /// Actualiza el recordatorio de una actividad.
+        /// </summary>
+        /// <param name="activity">Identificador de la actividad.</param>
+        /// <param name="reminder">Nuevo recordatorio de la actividad.</param>
+        /// <returns>Datos de la actividad.</returns>
         [OperationContract]
         [WebGet(ResponseFormat = WebMessageFormat.Xml)]
         public XElement UpdateReminder(int activity, string reminder)
@@ -418,6 +523,11 @@ namespace Agent
             return x;
         }
 
+        /// <summary>
+        /// Elimina una actividad según su Identificador.
+        /// </summary>
+        /// <param name="activityid">Identificador de la actividad.</param>
+        /// <returns>XML vacío.</returns>
         [OperationContract]
         [WebGet(ResponseFormat = WebMessageFormat.Xml)]
         public XElement DeleteActivity(int activityid)

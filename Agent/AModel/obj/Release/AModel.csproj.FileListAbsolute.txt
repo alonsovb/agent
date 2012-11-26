@@ -1,0 +1,7 @@
+C:\Users\Alonso\Documents\Visual Studio 2012\Projects\Agent\AModel\bin\Release\AModel.dll
+C:\Users\Alonso\Documents\Visual Studio 2012\Projects\Agent\AModel\bin\Release\AModel.pdb
+C:\Users\Alonso\Documents\Visual Studio 2012\Projects\Agent\AModel\bin\Release\AController.dll
+C:\Users\Alonso\Documents\Visual Studio 2012\Projects\Agent\AModel\bin\Release\AController.pdb
+C:\Users\Alonso\Documents\Visual Studio 2012\Projects\Agent\AModel\obj\Release\AModel.csprojResolveAssemblyReference.cache
+C:\Users\Alonso\Documents\Visual Studio 2012\Projects\Agent\AModel\obj\Release\AModel.dll
+C:\Users\Alonso\Documents\Visual Studio 2012\Projects\Agent\AModel\obj\Release\AModel.pdb

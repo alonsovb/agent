@@ -1,0 +1,40 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Main.master.cs" Inherits="Agent.Main" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+    <!-- JQuery and JQuery UI styles and script files -->
+    <link type="text/css" href="\css\flick\jquery-ui-1.9.0.custom.css" rel="stylesheet" />
+    <script type="text/javascript" src="/js/jquery.js"></script>
+    <script type="text/javascript" src="/js/jqueryui.js"></script>
+    <script type="text/javascript" src="/js/agentscripts.js"></script>
+    <script type="text/javascript" src="/js/jquery-ui-timepicker-addon.js"></script>
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <header>
+        <asp:ContentPlaceHolder ID="header" runat="server">
+        </asp:ContentPlaceHolder>
+    </header>
+    <nav>
+        <asp:ContentPlaceHolder ID="navigation" runat="server">
+        </asp:ContentPlaceHolder>
+    </nav>
+    <div id="content-wrapper">
+        <form id="form" runat="server">
+            <asp:ScriptManager ID="ScriptManager" runat="server">
+                <Services>
+                    <asp:ServiceReference Path="~/AgenteService.svc" />
+                </Services>
+            </asp:ScriptManager>
+            <asp:ContentPlaceHolder ID="content" runat="server">
+            </asp:ContentPlaceHolder>
+        </form>
+    </div>
+</body>
+</html>

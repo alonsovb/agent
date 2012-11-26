@@ -10,7 +10,7 @@ using Agent.Objects;
 namespace Agent.Model
 {
     /// <summary>
-    /// Esta clase comunica la aplicación con la base de datos.
+    /// Comunica la aplicación con la base de datos.
     /// </summary>
     public class DBHelper
     {
@@ -115,10 +115,15 @@ namespace Agent.Model
 
         #region Proyectos
 
-        public List<AProject> GetProjects(int id)
+        /// <summary>
+        /// Obtiene la lista de proyectos de un usuario.
+        /// </summary>
+        /// <param name="userId">Identificador del usuario.</param>
+        /// <returns>Lista de proyectos del usuario.</returns>
+        public List<AProject> GetProjects(int userId)
         {
             conn.Open();
-            SqlCommand command = new SqlCommand("select * from [dbo].[fGetProjects] (" + id + ")", conn);
+            SqlCommand command = new SqlCommand("select * from [dbo].[fGetProjects] (" + userId + ")", conn);
             SqlDataAdapter adapter = new SqlDataAdapter(command);
             DataTable table = new DataTable("projects");
             adapter.Fill(table);
@@ -137,6 +142,11 @@ namespace Agent.Model
             return result;
         }
 
+        /// <summary>
+        /// Obtiene un proyecto según su identificador.
+        /// </summary>
+        /// <param name="id">Identificador del proyecto.</param>
+        /// <returns>Instancia del proyecto con el ID dado.</returns>
         public AProject GetProject(int id)
         {
             conn.Open();
@@ -158,6 +168,12 @@ namespace Agent.Model
             }
         }
 
+        /// <summary>
+        /// Registra un nuevo proyecto en el sistema.
+        /// </summary>
+        /// <param name="userId">Identificador del usuario dueño.</param>
+        /// <param name="title">Título del proyecto.</param>
+        /// <returns>Identificador del nuevo proyecto agregado.</returns>
         public int RegisterProject(int userId, string title)
         {
             conn.Open();
@@ -177,6 +193,11 @@ namespace Agent.Model
             return newId;
         }
 
+        /// <summary>
+        /// Actualiza el título de un proyecto.
+        /// </summary>
+        /// <param name="projectId">Identificador del proyecto.</param>
+        /// <param name="title">Nuevo título.</param>
         public void UpdateProjectTitle(int projectId, string title)
         {
             conn.Open();
@@ -188,6 +209,10 @@ namespace Agent.Model
             conn.Close();
         }
 
+        /// <summary>
+        /// Elimina un proyecto del sistema según su identificador.
+        /// </summary>
+        /// <param name="projectId">Identificador del proyecto.</param>
         public void DeleteProject(int projectId)
         {
             conn.Open();
@@ -205,6 +230,11 @@ namespace Agent.Model
 
         #region Actividades
 
+        /// <summary>
+        /// Obtiene una lista de actividades para un proyecto.
+        /// </summary>
+        /// <param name="projectId">Identificador del proyecto.</param>
+        /// <returns>Lista de actividades del proyecto.</returns>
         public List<AActivity> GetActivities(int projectId)
         {
             conn.Open();
@@ -224,7 +254,12 @@ namespace Agent.Model
                 DateTime reminder = (DateTime)row["Reminder"];
                 byte priority = Convert.ToByte(row["Priority"]);
                 bool completed = (bool)row["Completed"];
-                result.Add(new AActivity(rowid, rowtitle, due, reminder, priority, completed) { Created = created });
+                int parentActivity = (int)table.Rows[0]["ParentActivity"];
+                result.Add(new AActivity(rowid, rowtitle, due, reminder, priority, completed)
+                {
+                    Created = created,
+                    Parent = parentActivity
+                });
             }
 
             conn.Close();
@@ -232,6 +267,11 @@ namespace Agent.Model
             return result;
         }
 
+        /// <summary>
+        /// Obtiene todas las actividades de un usuario.
+        /// </summary>
+        /// <param name="userId">Identificador del usuario.</param>
+        /// <returns>Lista de actividades del usuario.</returns>
         public List<AActivity> GetAllActivities(int userId)
         {
             conn.Open();
@@ -251,17 +291,26 @@ namespace Agent.Model
                 DateTime due = (DateTime)row["DueDate"];
                 byte priority = Convert.ToByte(row["Priority"]);
                 bool completed = (bool)row["Completed"];
+                int parentActivity = (int)table.Rows[0]["ParentActivity"];
                 result.Add(new AActivity(rowid, rowtitle, due, reminder, priority, completed)
                 {
                     ProjectID = (int)row["ProjectID"],
                     ProjectTitle = row["ProjectTitle"].ToString(),
-                    Created = created
+                    Created = created,
+                    Parent = parentActivity
                 });
             }
+
+            conn.Close();
 
             return result;
         }
 
+        /// <summary>
+        /// Obtiene una actividad según su identificador.
+        /// </summary>
+        /// <param name="id">Identificador de la actividad.</param>
+        /// <returns>Instancia de la actividad solicitada.</returns>
         public AActivity GetActivity(int id)
         {
             conn.Open();
@@ -279,7 +328,8 @@ namespace Agent.Model
                 DateTime reminder = (DateTime)table.Rows[0]["Reminder"];
                 short priority = (short)table.Rows[0]["Priority"];
                 bool completed = (bool)table.Rows[0]["Completed"];
-                AActivity result = new AActivity(rowid, rowtitle, due, reminder, byte.Parse(priority.ToString()), completed) { Created = created };
+                int parentActivity = (int)table.Rows[0]["ParentActivity"];
+                AActivity result = new AActivity(rowid, rowtitle, due, reminder, byte.Parse(priority.ToString()), completed) { Created = created, ProjectID = int.Parse(table.Rows[0]["Project"].ToString()), Parent = parentActivity };
                 return result;
             }
             else
@@ -288,6 +338,11 @@ namespace Agent.Model
             }
         }
 
+        /// <summary>
+        /// Obtiene una lista de actividades derivadas de otra.
+        /// </summary>
+        /// <param name="activityId">Actividad padre.</param>
+        /// <returns>Lista de actividades derivadas.</returns>
         public List<AActivity> GetChildActivities(int activityId)
         {
             conn.Open();
@@ -304,9 +359,10 @@ namespace Agent.Model
                 string rowtitle = row["Title"].ToString();
                 DateTime created = (DateTime)row["Created"];
                 DateTime reminder = (DateTime)row["Reminder"];
-                byte priority = (byte)row["Priority"];
+                short priority = (short)row["Priority"];
                 bool completed = (bool)row["Completed"];
-                result.Add(new AActivity(rowid, rowtitle, created, reminder, priority, completed));
+                int parentActivity = (int)table.Rows[0]["ParentActivity"];
+                result.Add(new AActivity(rowid, rowtitle, created, reminder, Convert.ToByte(priority), completed) { Parent = parentActivity });
             }
 
             conn.Close();
@@ -314,6 +370,17 @@ namespace Agent.Model
             return result;
         }
 
+        /// <summary>
+        /// Registra una nueva actividad en el sistema.
+        /// </summary>
+        /// <param name="projectID">Identificador del proyecto al que pertenece.</param>
+        /// <param name="title">Título de la actividad.</param>
+        /// <param name="due">Fecha para la actividad.</param>
+        /// <param name="parentActivity">Actividad padre.</param>
+        /// <param name="priority">Prioridad de la actividad.</param>
+        /// <param name="dateReminder">Fecha de recordatorio de la actividad.</param>
+        /// <param name="completed">Completitud de la actividad.</param>
+        /// <returns>Identificador de la nueva actividad registrada.</returns>
         public int RegisterActivity(int projectID, string title, DateTime due, int parentActivity, byte priority, DateTime dateReminder, bool completed)
         {
             conn.Open();
@@ -382,5 +449,89 @@ namespace Agent.Model
         }
 
         #endregion
+
+        #region Imágenes
+
+        public int InsertImage(int activityId, byte[] fileData, string fileName)
+        {
+            conn.Open();
+            SqlCommand command = new SqlCommand("spInsertImage", conn);
+            command.CommandType = CommandType.StoredProcedure;
+            command.Parameters.Add("@FileData", SqlDbType.VarBinary).Value = fileData;
+            command.Parameters.Add("@FileName", SqlDbType.VarChar).Value = fileName;
+            command.Parameters.Add("@ActivityID", SqlDbType.Int).Value = activityId;
+
+            command.Parameters.Add("@NewID", SqlDbType.Int).Direction = ParameterDirection.Output;
+            command.ExecuteNonQuery();
+
+            int newId = int.Parse(command.Parameters["@NewID"].Value.ToString());
+            conn.Close();
+
+            return newId;
+        }
+
+        public List<AImage> GetImages(int activityId)
+        {
+            conn.Open();
+            SqlCommand command = new SqlCommand("select * from [dbo].[fGetImages] (" + activityId + ")", conn);
+            SqlDataAdapter adapter = new SqlDataAdapter(command);
+            DataTable table = new DataTable("images");
+            adapter.Fill(table);
+
+            List<AImage> result = new List<AImage>();
+
+            foreach (DataRow row in table.Rows)
+            {
+                int rowid = (int)row["ID"];
+                string fileName = row["FileName"].ToString();
+                byte[] data = (byte[])row["FileData"];
+
+                result.Add(new AImage()
+                {
+                    ActivityID = activityId,
+                    ID = rowid,
+                    FileName = fileName,
+                    FileData = data
+                });
+            }
+
+            conn.Close();
+
+            return result;
+        }
+
+        public AImage GetImage(int imageId)
+        {
+            conn.Open();
+            SqlCommand command = new SqlCommand("select * from [dbo].[fGetImage] (" + imageId + ")", conn);
+            SqlDataAdapter adapter = new SqlDataAdapter(command);
+            DataTable table = new DataTable("images");
+            adapter.Fill(table);
+
+            AImage result = new AImage();
+
+            if (table.Rows.Count > 0)
+            {
+                DataRow row = table.Rows[0];
+                int activityId = (int)row["Activity"];
+                string fileName = row["FileName"].ToString();
+                byte[] data = (byte[])row["FileData"];
+
+                result = new AImage()
+                {
+                    ActivityID = activityId,
+                    ID = imageId,
+                    FileName = fileName,
+                    FileData = data
+                };
+            }
+
+            conn.Close();
+
+            return result;
+        }
+
+        #endregion
+
     }
 }

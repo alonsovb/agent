@@ -4,12 +4,13 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using Agent.Model;
+
 using Agent.Objects;
+using Agent.Model;
 
 namespace Agent
 {
-    public partial class WebForm5 : System.Web.UI.Page
+    public partial class LoginPage : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {

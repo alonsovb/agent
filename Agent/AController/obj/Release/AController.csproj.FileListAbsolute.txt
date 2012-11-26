@@ -1,0 +1,5 @@
+C:\Users\Alonso\Documents\Visual Studio 2012\Projects\Agent\AController\bin\Release\AController.dll
+C:\Users\Alonso\Documents\Visual Studio 2012\Projects\Agent\AController\bin\Release\AController.pdb
+C:\Users\Alonso\Documents\Visual Studio 2012\Projects\Agent\AController\obj\Release\AController.csprojResolveAssemblyReference.cache
+C:\Users\Alonso\Documents\Visual Studio 2012\Projects\Agent\AController\obj\Release\AController.dll
+C:\Users\Alonso\Documents\Visual Studio 2012\Projects\Agent\AController\obj\Release\AController.pdb

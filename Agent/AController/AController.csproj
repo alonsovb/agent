@@ -40,6 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AActivity.cs" />
+    <Compile Include="AImage.cs" />
     <Compile Include="AProject.cs" />
     <Compile Include="AUser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

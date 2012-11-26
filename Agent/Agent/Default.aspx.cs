@@ -10,32 +10,40 @@ using Agent.Model;
 
 namespace Agent
 {
-    public partial class WebForm1 : System.Web.UI.Page
+    public partial class DefaultPage : System.Web.UI.Page
     {
-        public AUser user;
+        /// <summary>
+        /// Usuario que se está usando actualmente.
+        /// </summary>
+        public AUser CurrentUser { get; set; }
+        /// <summary>
+        /// Proyectos del usuario actual.
+        /// </summary>
+        public List<AProject> Projects { get; set; }
+        /// <summary>
+        /// Recordatorios para el día de hoy.
+        /// </summary>
+        public List<AActivity> Reminders { get; set; }
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (Session["user"] == null)
+            // Comprobar que hay una sesión de usuario activa.
+            if (Session["user"] != null)
             {
-                //DBHelper db = new DBHelper(AgentUtileries.dbcstring);
-                //int id = db.Authenticate("a@b.c", "a");
-                //if (id > 0)
-                //{
-                //    AUser user = db.GetUser(id);
-                //    Session["user"] = user;
-                //    Response.Redirect("~/Default.aspx");
-                //    return;
-                //}
-                Response.Redirect("~/User/Login.aspx");
-            }
-            else
-            {
-                user = (AUser)Session["user"];
-                HyperLink profileLink = new HyperLink();
-                profileLink.NavigateUrl = "~/User/Profile.aspx?id=" + user.ID;
-                profileLink.Text = "<h2 class='profilename'>" + user.Name + "</h2>";
-                OptionPanel.Controls.Add(profileLink);
+                CurrentUser = (AUser)Session["user"];
+                DBHelper db = new DBHelper(AgentUtileries.dbcstring);
+                Projects = db.GetProjects(CurrentUser.ID);
+                
+                Reminders = new List<AActivity>();
+                List<AActivity> all = db.GetAllActivities(CurrentUser.ID);
+
+                DateTime today = DateTime.Today,
+                    tomorrow = today.AddDays(1);
+                foreach (AActivity activity in all)
+                {
+                    if (activity.Reminder.Value.Ticks > today.Ticks && activity.Reminder.Value.Ticks < tomorrow.Ticks)
+                        Reminders.Add(activity);
+                }
             }
         }
     }

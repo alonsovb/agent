@@ -10,37 +10,48 @@ using Agent.Model;
 
 namespace Agent
 {
-    public partial class WebForm3 : System.Web.UI.Page
+    public partial class ProjectPage : System.Web.UI.Page
     {
-        public AUser user;
-        public AProject _project;
-        private DBHelper m;
+        /// <summary>
+        /// Usuario que se está usando actualmente.
+        /// </summary>
+        public AUser CurrentUser { get; set; }
+        /// <summary>
+        /// Proyectos del usuario actual.
+        /// </summary>
+        public List<AProject> Projects { get; set; }
+        /// <summary>
+        /// Proyecto actual.
+        /// </summary>
+        public AProject CurrentProject { get; set; }
+        /// <summary>
+        /// Lista de actividades de este proyecto.
+        /// </summary>
+        public List<AActivity> ActivityList { get; set; }
+        /// <summary>
+        /// Cantidad de actividades completadas de este proyecto.
+        /// </summary>
+        public int Completed { get; set; }
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (Session["user"] == null)
+            if (Session["user"] != null)
             {
-                Response.Redirect("~/User/Login.aspx");
-                return;
-            }
-            else
-            {
-                user = (AUser)Session["user"];
-            }
-            if (!Page.IsPostBack)
-            {
-                string sid = Request.QueryString["id"];
+                CurrentUser = (AUser)Session["user"];
+                DBHelper db = new DBHelper(AgentUtileries.dbcstring);
+
+                Projects = db.GetProjects(CurrentUser.ID);
+
+                string sid = Request.QueryString["view"];
                 int id;
                 int.TryParse(sid, out id);
 
-                m = new Model.DBHelper(AgentUtileries.dbcstring);
-                Session["db"] = m;
-                _project = m.GetProject(id);
-            }
-            else
-            {
-                _project = (AProject)Session["project"];
-                m = (DBHelper)Session["db"];
+                CurrentProject = db.GetProject(id);
+                ActivityList = db.GetActivities(id);
+                foreach(AActivity a in ActivityList) {
+                    if (a.Completed) Completed++;
+                }
+                Title = CurrentProject.Title;
             }
         }
     }

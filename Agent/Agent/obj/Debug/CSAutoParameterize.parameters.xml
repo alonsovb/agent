@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="SQLAgente-Web.config Connection String" description="SQLAgente Connection String used in web.config by the application to access the database." defaultValue="Data Source=ALLISON\SQLEXPRESS;Initial Catalog=Agente;Integrated Security=True;Database=Agente" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="C:\\Users\\Alonso\\Documents\\Visual\ Studio\ 2012\\Projects\\Agent\\Agent\\obj\\Debug\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='SQLAgente']/@connectionString" />
+  </parameter>
+</parameters>

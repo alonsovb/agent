@@ -1,0 +1,142 @@
+﻿* {
+}
+
+html, body {
+    height: 100%;
+}
+
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+a {
+    color: #0073EA;
+    text-decoration: none;
+}
+
+.login-button {
+    width: 100%;
+}
+
+a:visited {
+    color: #0073EA;
+}
+a:hover {
+    color: #ff0084
+}
+
+header {
+    width: 100%;
+    float: left;
+    border-bottom: solid 2px #808080;
+}
+
+header h1{
+    float: left;
+    font-size: 26px;
+    margin: 0 5px 10px 5px;
+}
+header h1 a {
+    color: #808080 !important;
+}
+
+header h2 {
+    float: right;
+    font-size: 14px;
+    margin: 0 5px;
+    margin-top: 7px;
+    border-left: solid 1px #808080;
+    padding-left: 5px;
+}
+
+ul {
+    list-style-type: none;
+}
+
+nav {
+    clear: both;
+    float: left;
+    width: 200px;
+    border-right: dotted 1px #808080;
+    height: 100%;
+}
+
+#content-wrapper {
+    float: left;
+    padding: 0 20px;
+    width: 600px;
+}
+
+.op-link {
+    margin-top: 0;
+    font-size: 12px;
+}
+
+p {
+    font-size: 14px;
+}
+
+h2 {
+    margin-bottom: 0;
+}
+
+.completed {
+    text-decoration: line-through;
+}
+
+#ui-datepicker-div { font-size: 12px; } 
+.ui-widget { font-size: 12px; }
+.dialog-input {
+    width: 90%;
+}
+
+/* css for timepicker */
+.ui-timepicker-div .ui-widget-header { margin-bottom: 8px; }
+.ui-timepicker-div dl { text-align: left; }
+.ui-timepicker-div dl dt { height: 25px; margin-bottom: -25px; }
+.ui-timepicker-div dl dd { margin: 0 10px 10px 65px; }
+.ui-timepicker-div td { font-size: 90%; }
+.ui-tpicker-grid-label { background: none; border: none; margin: 0; padding: 0; }
+
+.ui-timepicker-rtl{ direction: rtl; }
+.ui-timepicker-rtl dl { text-align: right; }
+.ui-timepicker-rtl dl dd { margin: 0 65px 10px 10px; }
+
+#progress {
+    width: 90%;
+}
+
+#activity-textblock {
+    clear: both;
+}
+
+.thumbnail {
+    float: left;
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.slides_container {
+    width:570px;
+    height:270px;
+    border: solid 1px #eee;
+}
+.slides_container div {
+    width:570px;
+    height:270px;
+    display:block;
+}
+
+::selection {
+    background: #ff0084;
+    color: white;
+    text-shadow: none;
+}
+
+.next {
+    float: left;
+    content: '<';
+}
+.prev {
+    float: left;
+}
